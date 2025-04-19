@@ -389,14 +389,13 @@ export const TokenTable = observer(() => {
 
 										header.column.columnDef.meta?.align === 'start' && 'text-start pl-2 pr-2',
 
-										header.column.columnDef.meta?.align === 'end' && 'text-right pr-[10px]',
-										'after:content-[""] after:absolute after:right-0 after:top-1/2 after:-translate-y-1/2 after:w-px after:h-[32px] after:bg-border-primary-foreground',
+										header.column.columnDef.meta?.align === 'end' && 'text-right pr-[10px] after:content-[""] after:absolute after:right-0 after:top-1/2 after:-translate-y-1/2 after:w-px after:h-[32px] after:bg-border-primary-foreground',
 
 										header.column.columnDef.meta?.sticky === 'left' &&
-											'bg-background-2 sticky left-0 z-[1] after:content-[""] after:absolute after:left-[100%] after:top-0 after:h-full after:w-[16px] after:bg-background-2 after:mask-r-from-5% after:!translate-none',
+											'bg-background-2 sticky left-0 z-[1] before:content-[""] before:absolute before:left-[99%] before:top-0 before:h-full before:w-[16px] before:bg-background-2 before:mask-r-from-5% before:!translate-none',
 
 										header.column.columnDef.meta?.sticky === 'right' &&
-											'bg-background-2 sticky right-0 z-[1] after:content-[""] after:absolute after:right-[100%] after:!top-0 after:!h-full after:w-[16px] after:bg-background-2 after:mask-l-from-5% after:!translate-none'
+											'bg-background-2 sticky right-0 z-[1] before:content-[""] before:absolute before:right-[99%] before:!top-0 before:!h-full before:w-[16px] before:bg-background-2 before:mask-l-from-5% before:!translate-none'
 									)}
 								>
 									<div
@@ -429,13 +428,15 @@ export const TokenTable = observer(() => {
 										'text-center h-[64px] relative align-top whitespace-nowrap min-w-[90px] pt-[14px]',
 										cell.column.columnDef.meta?.align === 'start' &&
 											'text-start min-w-[80px] pl-2 pr-2',
+
 										cell.column.columnDef.meta?.align === 'end' &&
 											'min-w-[88px] text-right pr-[10px] after:content-[""] after:absolute after:right-0 after:top-1/2 after:-translate-y-1/2 after:w-px after:h-[32px] after:bg-border-primary-foreground',
+
 										cell.column.columnDef.meta?.sticky === 'left' &&
-											'bg-background-2 sticky left-0 z-[1] after:content-[""] after:absolute after:left-[100%] after:top-0 after:h-full after:w-[16px] after:bg-background-2 after:mask-r-from-5% after:!translate-none',
+											'bg-background-2 sticky left-0 z-[1] after:content-[""] after:absolute after:left-[99%] after:top-0 after:h-full after:w-[16px] after:bg-background-2 after:mask-r-from-5% after:!translate-none',
 
 										cell.column.columnDef.meta?.sticky === 'right' &&
-											'bg-background-2 sticky right-0 z-[1] after:content-[""] after:absolute after:right-[100%] after:!top-0 after:!h-full after:w-[16px] after:bg-background-2 after:mask-l-from-5% after:!translate-none'
+											'bg-background-2 sticky right-0 z-[1] after:content-[""] after:absolute after:right-[99%] after:!top-0 after:!h-full after:w-[16px] after:bg-background-2 after:mask-l-from-5% after:!translate-none'
 									)}
 								>
 									{flexRender(cell.column.columnDef.cell, cell.getContext())}
