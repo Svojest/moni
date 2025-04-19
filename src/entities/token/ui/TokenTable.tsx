@@ -19,6 +19,7 @@ import Link from 'next/link'
 import { CheckIcon, ClockIcon, XIcon, ZapIcon } from '@/shared/icons'
 import { cn, formatAgeFromTimestamp, formatAmount } from '@/shared/lib'
 import { SortIcons } from '@/shared/ui'
+import { useShadowScroll } from '@/shared/hooks'
 
 type ColumnAlign = 'start' | 'center' | 'end'
 type StickyAlign = 'left' | 'right'
@@ -362,6 +363,9 @@ export const TokenTable = observer(() => {
 		// getSortedRowModel: getSortedRowModel()
 	})
 
+	const { containerRef, canScrollLeft, canScrollRight } = useShadowScroll({ deps: [isReady] })
+
+	console.log(canScrollLeft, canScrollRight)
 	if (!isReady && !tokenStore.tokens.length)
 		return (
 			<div className='overflow-x-auto border rounded-lg h-[95dvh] border-border bg-background-2 flex flex-col items-center justify-center'>
@@ -370,7 +374,10 @@ export const TokenTable = observer(() => {
 		)
 
 	return (
-		<div className='overflow-x-auto border rounded-lg max-h-[95dvh] border-border bg-background-2 scrollbar'>
+		<div
+			className='overflow-x-auto border rounded-lg max-h-[95dvh] border-border bg-background-2 scrollbar'
+			ref={containerRef}
+		>
 			<table className='min-w-full text-sm table-auto'>
 				<thead>
 					{table.getHeaderGroups().map(headerGroup => (
@@ -389,13 +396,22 @@ export const TokenTable = observer(() => {
 
 										header.column.columnDef.meta?.align === 'start' && 'text-start pl-2 pr-2',
 
-										header.column.columnDef.meta?.align === 'end' && 'text-right pr-[10px] after:content-[""] after:absolute after:right-0 after:top-1/2 after:-translate-y-1/2 after:w-px after:h-[32px] after:bg-border-primary-foreground',
+										header.column.columnDef.meta?.align === 'end' &&
+											'text-right pr-[10px] after:content-[""] after:absolute after:right-0 after:top-1/2 after:-translate-y-1/2 after:w-px after:h-[32px] after:bg-border-primary-foreground last:after:hidden',
 
 										header.column.columnDef.meta?.sticky === 'left' &&
-											'bg-background-2 sticky left-0 z-[1] before:content-[""] before:absolute before:left-[99%] before:top-0 before:h-full before:w-[16px] before:bg-background-2 before:mask-r-from-5% before:!translate-none',
+											'bg-background-2 sticky left-0 z-[1] before:content-[""] before:absolute before:left-[99%] before:top-0 before:h-full before:w-[40px] before:bg-background-2 before:mask-r-from-5% before:!translate-none before:opacity-0 before:transition-opacity',
+
+										header.column.columnDef.meta?.sticky === 'left' &&
+											canScrollLeft &&
+											'before:opacity-100',
 
 										header.column.columnDef.meta?.sticky === 'right' &&
-											'bg-background-2 sticky right-0 z-[1] before:content-[""] before:absolute before:right-[99%] before:!top-0 before:!h-full before:w-[16px] before:bg-background-2 before:mask-l-from-5% before:!translate-none'
+											'bg-background-2 sticky right-0 z-[1] before:content-[""] before:absolute before:right-[99%] before:!top-0 before:!h-full before:w-[40px] before:bg-background-2 before:mask-l-from-5% before:!translate-none before:opacity-0 before:transition-opacity',
+
+										header.column.columnDef.meta?.sticky === 'right' &&
+											canScrollRight &&
+											'before:opacity-100'
 									)}
 								>
 									<div
@@ -433,10 +449,18 @@ export const TokenTable = observer(() => {
 											'min-w-[88px] text-right pr-[10px] after:content-[""] after:absolute after:right-0 after:top-1/2 after:-translate-y-1/2 after:w-px after:h-[32px] after:bg-border-primary-foreground',
 
 										cell.column.columnDef.meta?.sticky === 'left' &&
-											'bg-background-2 sticky left-0 z-[1] after:content-[""] after:absolute after:left-[99%] after:top-0 after:h-full after:w-[16px] after:bg-background-2 after:mask-r-from-5% after:!translate-none',
+											'bg-background-2 sticky left-0 z-[1] before:content-[""] before:absolute before:left-[99%] before:top-0 before:h-full before:w-[40px] before:bg-background-2 before:mask-r-from-5% before:!translate-none before:opacity-0 before:transition-opacity',
+
+										cell.column.columnDef.meta?.sticky === 'left' &&
+											canScrollLeft &&
+											'before:opacity-100',
 
 										cell.column.columnDef.meta?.sticky === 'right' &&
-											'bg-background-2 sticky right-0 z-[1] after:content-[""] after:absolute after:right-[99%] after:!top-0 after:!h-full after:w-[16px] after:bg-background-2 after:mask-l-from-5% after:!translate-none'
+											'bg-background-2 sticky right-0 z-[1] before:content-[""] before:absolute before:right-[99%] before:!top-0 before:!h-full before:w-[40px] before:bg-background-2 before:mask-l-from-5% before:!translate-none before:opacity-0 before:transition-opacity',
+
+										cell.column.columnDef.meta?.sticky === 'right' &&
+											canScrollRight &&
+											'before:opacity-100'
 									)}
 								>
 									{flexRender(cell.column.columnDef.cell, cell.getContext())}
