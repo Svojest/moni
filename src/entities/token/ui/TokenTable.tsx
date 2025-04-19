@@ -110,7 +110,9 @@ export const TokenTable = observer(() => {
 
 			cell: ({ row }) => {
 				const token = row.original
-				return <span className='align-top'>{formatAmount(token.smartFollowersCount)}</span>
+				return (
+					<span className='align-top tabular-nums'>{formatAmount(token.smartFollowersCount)}</span>
+				)
 			}
 		},
 		{
@@ -138,7 +140,9 @@ export const TokenTable = observer(() => {
 			meta: { align: 'end' },
 			cell: ({ row }) => {
 				const token = row.original
-				return <span className='align-top'>{formatAmount(token.smartMentionsCount)}</span>
+				return (
+					<span className='align-top tabular-nums'>{formatAmount(token.smartMentionsCount)}</span>
+				)
 			}
 		},
 		{
@@ -252,7 +256,7 @@ export const TokenTable = observer(() => {
 
 			cell: ({ row }) => {
 				const token = row.original
-				return <span className='align-top'>${formatAmount(token.liquidity.USD)}</span>
+				return <span className='align-top tabular-nums'>${formatAmount(token.liquidity.USD)}</span>
 			}
 		},
 		{
@@ -262,7 +266,7 @@ export const TokenTable = observer(() => {
 
 			cell: ({ row }) => {
 				const token = row.original
-				return <span className='align-top'>${formatAmount(token.marketCap.USD)}</span>
+				return <span className='align-top tabular-nums'>${formatAmount(token.marketCap.USD)}</span>
 			}
 		},
 		{
@@ -292,7 +296,7 @@ export const TokenTable = observer(() => {
 
 			cell: ({ row }) => {
 				const token = row.original
-				return <span className='align-top'>${formatAmount(token.holdersCount)}</span>
+				return <span className='align-top tabular-nums'>${formatAmount(token.holdersCount)}</span>
 			}
 		},
 		{
@@ -358,7 +362,7 @@ export const TokenTable = observer(() => {
 		// getSortedRowModel: getSortedRowModel()
 	})
 
-	if (!isReady)
+	if (!isReady && !tokenStore.tokens.length)
 		return (
 			<div className='overflow-x-auto border rounded-lg h-[95dvh] border-border bg-background-2 flex flex-col items-center justify-center'>
 				<div className='text-xl text-muted-foreground'>Loading...</div>
@@ -389,12 +393,10 @@ export const TokenTable = observer(() => {
 										'after:content-[""] after:absolute after:right-0 after:top-1/2 after:-translate-y-1/2 after:w-px after:h-[32px] after:bg-border-primary-foreground',
 
 										header.column.columnDef.meta?.sticky === 'left' &&
-											'bg-background-2 sticky left-0 z-[1]',
-										'after:content-[""] after:absolute after:left-[100%] after:top-0 after:h-full after:w-[16px] after:bg-background-2 after:mask-r-from-5%',
+											'bg-background-2 sticky left-0 z-[1] after:content-[""] after:absolute after:left-[100%] after:top-0 after:h-full after:w-[16px] after:bg-background-2 after:mask-r-from-5% after:!translate-none',
 
 										header.column.columnDef.meta?.sticky === 'right' &&
-											'bg-background-2 sticky right-0 z-[1]',
-										'after:content-[""] after:absolute after:right-[100%] after:!top-0 after:!h-full after:w-[16px] after:bg-background-2 after:mask-l-from-5% after:!translate-none'
+											'bg-background-2 sticky right-0 z-[1] after:content-[""] after:absolute after:right-[100%] after:!top-0 after:!h-full after:w-[16px] after:bg-background-2 after:mask-l-from-5% after:!translate-none'
 									)}
 								>
 									<div
@@ -422,6 +424,7 @@ export const TokenTable = observer(() => {
 							{row.getVisibleCells().map(cell => (
 								<td
 									key={cell.id}
+									data-sticky={cell.column.columnDef.meta?.sticky}
 									className={cn(
 										'text-center h-[64px] relative align-top whitespace-nowrap min-w-[90px] pt-[14px]',
 										cell.column.columnDef.meta?.align === 'start' &&
@@ -429,7 +432,7 @@ export const TokenTable = observer(() => {
 										cell.column.columnDef.meta?.align === 'end' &&
 											'min-w-[88px] text-right pr-[10px] after:content-[""] after:absolute after:right-0 after:top-1/2 after:-translate-y-1/2 after:w-px after:h-[32px] after:bg-border-primary-foreground',
 										cell.column.columnDef.meta?.sticky === 'left' &&
-											'bg-background-2 sticky left-0 z-[1] after:content-[""] after:absolute after:left-[100%] after:top-0 after:h-full after:w-[16px] after:bg-background-2 after:mask-r-from-5%',
+											'bg-background-2 sticky left-0 z-[1] after:content-[""] after:absolute after:left-[100%] after:top-0 after:h-full after:w-[16px] after:bg-background-2 after:mask-r-from-5% after:!translate-none',
 
 										cell.column.columnDef.meta?.sticky === 'right' &&
 											'bg-background-2 sticky right-0 z-[1] after:content-[""] after:absolute after:right-[100%] after:!top-0 after:!h-full after:w-[16px] after:bg-background-2 after:mask-l-from-5% after:!translate-none'
